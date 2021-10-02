@@ -2,7 +2,7 @@
 # Colaboradores: 
 # Fecha de elaboracion: 31/08/2021
 # Ultima modificacion: 31/08/2021
-# Version de R: 4.1.0
+# Version de R: 4.1.1
 
 # configuracion inicial 
 rm(list = ls()) # limpia el entorno de R
@@ -44,14 +44,14 @@ head(data_csv) # Ver primeras observaciones
 str(data_csv) # Inspeccionar las variables del dataframe
 
 # Importar bases de datos en formato .xls y .xlsx 
-cat("Importar base de datos: hurto-personas-2020_0.xlsx")
+cat("Importar base de datos: hurto-personas-2020_0.xlsx")#cat es como un print)
 data_xls = read_excel(path = "data_4/output/hurto-personas-2020_0.xlsx" , sheet = "Sheet1" , col_names = T, skip = 9) 
 head(data_xls)
 str(data_xls) 
 
 # Importar bases de datos en formato .dta
 cat("Importar base de datos: Area - Caracteristicas generales (Personas).dta")
-data_dta = read_dta(file = "data_4/input/Area - Caracteristicas generales (Personas).dta") 
+data_dta = read_dta("data_4/input/Area - Caracteristicas generales (Personas).dta") 
 head(data_dta)
 str(data_dta)
 
@@ -62,7 +62,7 @@ head(data_dta)
 str(data_rds) 
 
 # Importar bases de datos en formato .Rdata
-load(file = "data_4/input/Homicidios 2020.Rdata")
+load(file = "data_4/input/Homicidios 2020.Rdata") #no necesito generar un objeto para asignarle a la base de datos
 head(data_rdata)
 str(data_rdata)
 
@@ -102,7 +102,7 @@ rm(list = ls())# clean enviroment
 
 #------ 1.2.1 Import -----#
 # Informacion extra
-?rio::import
+?rio::import #help de import del paquete rio
 
 # Importar bases de datos en formato .csv
 data_csv = import(file = "data_4/input/censo 2018.csv" , sep = "," , header = T, stringsAsFactors = F, skip = 6) 
@@ -122,7 +122,7 @@ data_rdata = import(file = "data_4/input/Homicidios 2020.Rdata")
 
 #---- 1.2.2 Import -------#
 # Informacion extra
-?rio::export
+?rio::export #help de export del paquete rio
 
 # exportar bases de datos en formato .csv
 export(data_csv, "data_4/output/censo 2018.csv" ) 
@@ -161,7 +161,7 @@ convert("data_4/input/proyecciones DANE 2005-2020.rds" ,"data_4/input/proyeccion
 ?skimr::skim()
 
 # 1.3.1 resumen del data -#
-skim(data_csv)
+skim(data_csv) #Es como un summarize
 skim(data_dta)
 skim(data_rdata)
 skim(data_rds)
@@ -181,8 +181,8 @@ browseURL("https://rsanchezs.gitbooks.io/rprogramming/content/chapter9/dplyr.htm
 #-------------------------#
 # ejemplo 1
 head(data_xls)
-
-data_xls = rename_with(data_xls, tolower) # cambiar nombres a minúscula. 
+#shit+cm+m -------> atajo 
+data_xls = rename_with(data_xls, tolower) # cambiar nombres a minúscula (tolower). 
 data_xls = select(data_xls, c(`armas medios`,`descripcion conducta`, `codigo dane`)) #seleccionar columnas. si los nombres tienen un espacio utilizar ``
 
 head(data_xls)
@@ -191,8 +191,8 @@ head(data_xls)
 head(mtcars)
 
 mtcars = slice(mtcars, 1:3) # selecionamos filas 1:3
-mtcars = arrange(mtcars, desc(disp)) # mayor a menor 
-mtcars = filter(mtcars, disp == 160) ## disp = 160
+mtcars = arrange(mtcars, desc(disp)) # ordenar mayor a menor de la variable disp
+mtcars = filter(mtcars, disp == 160) ## filtra variable disp = 160
 
 head(mtcars)
 
@@ -201,6 +201,8 @@ head(mtcars)
 #-------------------------#
 data_xls = import(file= "data_4/input/hurto-personas-2020_0.xlsx" , sheet = "Sheet1" , col_names = TRUE, skip = 9) #resetear a base de datos original
 data(mtcars)  #resetear a base de datos original
+
+#%>% es como un 'y ahora' Cojo una acción y el pipe va como un 'luego has esto'
 
 # ejemplo 1
 head(data_xls)
@@ -227,9 +229,9 @@ data(mtcars)
 #-------------------------#
 #      3.1 data$var       #
 #-------------------------#
-mtcars$codigo = paste(mtcars$vs,mtcars$am,mtcars$gear,mtcars$carb) # agregamos columnas
+mtcars$codigo = paste(mtcars$vs,mtcars$am,mtcars$gear,mtcars$carb) # agregamos columnas/paste oara pegar
 mtcars$nueva = 1
-
+mtcras
 mtcars$vs = NULL # Eliminamos columnas
 mtcars$am = NULL
 mtcars$gear = NULL

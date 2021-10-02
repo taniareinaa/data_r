@@ -5,10 +5,17 @@
 
 # configuracion inicial (comentario prueba max)
 rm(list = ls()) # limpia el entorno de R
+if(!require(pacman)) install.packages(pacman) #cargar paquete, solo hoy, se borra luego 
 if(!require(pacman)) install.packages(pacman)
 require(pacman)
-p_load(dplyr,data.table)
+p_load(dplyr,data.table) #Instala todos los paquetes (si no los tengo) y los llama 
 print('No fijamos un WD porque estamos trabajando en un R-project')
+#============================#
+# Encabezado de todos los scr#
+#============================#
+rm(list = ls())
+require(pacman)
+p_load(dplyr,data.table)
 
 #============================#
 # [1.] Directorio de trabajo #
@@ -20,8 +27,9 @@ list.files() # obtener vector nombres de archivos en el wd
 
 list.files(path = '.' , pattern = '.md') # vector nombres archivos markdown (.md)
 
+dir.create("nombre") #crear carpeta
 #====================#
-# [2.] Tipo de datos #
+# [2.] Tipo de datos #    #LOS VECTORES DEBEN SER HOMOGÉNEOS 
 #====================#
 
 # lógico
@@ -29,14 +37,14 @@ vector_l = c(NA,TRUE,FALSE)
 is.logical(vector_l)
 
 # character
-vector_c = c("hola",'a',"2") #para character se usa '' o ""
+vector_c = c("hola",'a',) #para character se usa '' ó ""
 is.character(vector_c)
 
 # Datos numericos
 
 # numeric
 vector_n = c(5,2)
-is.numeric(vector_n)
+is.numeric(vector_n) #is para saber qué tipo de elementos tiene 
 
 # interger
 vector_i = -5:5
@@ -51,12 +59,12 @@ cat("puedo consultar el tipo de datos que contiene un objeto usando la función 
 #==========================#
 # [3.] Estructura de datos #
 #==========================#
-
+#Todos de un mismo tipo #Diferentes tipos
 #--------------------------------------
 # Dim |  Homogeneos	 |  Heterogeneos  |
 #--------------------------------------
-#  1d	|    Vector    |   Listas       |
-#  2d	|    Matriz    |   Dataframe    |
+#  1d	|    Vector    |   Listas       |  =c() para crear vectores     =list() crear listas
+#  2d	|    Matriz    |   Dataframe    |  =matrix() crear matrices     =data.frame() crear dataframe
 #  nd	|    Array     |                |
 #--------------------------------------
 
@@ -83,8 +91,8 @@ matriz
 ## Listas 
 
 #lista              
-lista = list()
-lista[[1]] = abe
+lista = list() #lista vacía
+lista[[1]] = abe  
 lista[[2]] = log
 lista[[3]] = num
 lista[[4]] = matriz # matriz que creamos anteriormente
@@ -92,18 +100,15 @@ lista[[5]] = df # dataframe que creamos anteriormente
 lista
 
 ## Dataframes
-cat("Además de los datos que están en esas filas y columnas un data.frame tiene dos atributos (metadatos): 
-     los nombres de columna y los nombres de filas.")
 
 # dataframe
 dataframe = data.frame(log, abe, num, matriz)
 
 dataframe 
-str(dataframe)
+str(dataframe) #para saber el tipo de datos 
 
 ## Manipular vectores
-abe[5]
-
+abe[5] #pidiendo la posición 5
 abe
 
 abe[-5] # Eliminar elemento 5
@@ -136,7 +141,7 @@ colnames(matriz)
 rownames(matriz) 
 
 # Asignar nombre a varias columnas
-colnames(matriz) = c("col_1" , "col_2", "col_3") 
+colnames(matriz) = c("col_1" , "col_2", "col_3") #se nombra con un vector 
 matriz
 
 # Asignar nombre a una fila en especifico
@@ -152,7 +157,7 @@ dataframe[1,]# observar una fila
 dataframe
 dataframe[,3]# observar una columna
 
-dataframe$num
+dataframe$num #posición del nombre de la variable
 
 # cambiar los nombre de la filla
 rownames(dataframe) = c("row_1","row_2","row_3","row_4","row_5","row_6") 
@@ -164,15 +169,16 @@ dataframe
 
 lista
 
-lista[[4]] # LLamamos el dato que deseamos
+lista[[4]] # LLamamos el dato que deseamos DOS CORCHETES (DIFERENCIA DE LOS VECTORES)
 
-lista[[4]][,2] # seleccionar columna dentro de la matiz
+lista[[4]][,2] # seleccionar columna dentro de la matriz
 
 names(lista) = c("vector_character","vector_logical","vector_numerico","matriz","df")
 lista
 
-lista$vector_character
-lista["df"]
+lista$vector_character #Llamar con nombres
+lista["df"] #Llamar con nombres
+
 
 
 

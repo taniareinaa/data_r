@@ -73,17 +73,19 @@ browseURL("https://dplyr.tidyverse.org/reference/filter.html", browser = getOpti
 #----------------------------#
 
 # Seleccionar variables
-dev.off()
+dev.off() #LIMPIAR 
 grid.raster(readPNG("data_5/input/pics/maybe.png"))
 
 # llamar el numero de columnas
-colnames(c_gen1)
-c_gen1 %>% select(c(2:10)) %>% head() #colnames nos permite ver el nombre de las columnas, solo para simplificacion. 
+colnames(c_gen1)#colnames nos permite ver el nombre de las columnas, solo para simplificacion.
+c_gen1 %>% select(c(2:10)) %>% head()  #Me devuelve las columnas de 2-10
 c_gen1 %>% select(c(2,3,4,5,9,10)) %>% head()
 
+#head ES LA FUNCIÓN PARA MOSTRAR SOLO LOS PRIMEROS 6 DATOS
+
 # Select con parte de una palabra
-c_gen1 %>%  select(starts_with("p60")) %>% head()
-c_gen1 %>%  select(ends_with(c("70","60","50"))) %>% head()
+c_gen1 %>%  select(starts_with("p60")) %>% head() #Me selecciona los datos de las variables que comiencen por p60
+c_gen1 %>%  select(ends_with(c("70","60","50"))) %>% head()#Me selecciona los datos de las variables que terminan en x valor
 data = c_gen1 %>%  select(contains("60")) 
 c_gen1 %>%  select(contains("60")) %>% head()
 
@@ -121,13 +123,13 @@ c_gen3 %>% head()
 #----------------------------#
 
 cat("Poner cuadro con condicionales")
-
+#subset sirve para filtrar
 # mayor de 40
-c_gen2 %>% subset(p6040 >= 40) %>% head()
+c_gen2 %>% subset(p6040 >= 40) %>% head() 
 
 # entre 40 y 60 
-c_gen2 %>% subset(p6040 >= 40 & p6040 <= 60) %>% head()
-c_gen2 %>% subset(p6040 <= 10 | p6040 >= 60) %>% head()
+c_gen2 %>% subset(p6040 >= 40 & p6040 <= 60) %>% head() #y 
+c_gen2 %>% subset(p6040 <= 10 | p6040 >= 60) %>% head() #o
 
 # combinarlo con una una fuuncion similar a select
 c_gen2 %>% subset(p6040 >= 40, select = c(p6020,p6040)) %>% head()
@@ -187,23 +189,23 @@ grid.raster(readPNG("data_5/input/pics/Types of join.png"))
 
 #----------------- joint con el numero correcto de variables ------------------#
 
-# left_join
+# left_join ---- Coje todos los datos de la primera base (x), y junta los valores que coincidan de la segunda base (y)
 dev.off()
 grid.raster(readPNG("data_5/input/pics/Left join.png"))
-x_left = left_join(x = c_gen1, y = ocu1, by = c("directorio","secuencia_p","orden"), suffix = c("_c", "_o"))
+x_left = left_join(x = c_gen1, y = ocu1, by = c("directorio","secuencia_p","orden"), suffix = c("_c", "_o")) #suffix es para cuando hay dos variables repetidas en ambas bases pero que no estoy utilizando para unir, entonces le asigno caracteres especiales
 nrow(x_left)
 nrow(c_gen1)
 cat("mantuvo el numero de filas de caracteristicas general ya que es un left join")
 
-# right_join
+# right_join ----- Coje todos los datos de la segunda base (y), y junta los valores que coincidan de la primera base (x)
 dev.off()
 grid.raster(readPNG("data_5/input/pics/right join.png"))
 x_right = right_join(c_gen1, ocu1, by = c("directorio","secuencia_p","orden"), suffix = c("", ""))
-nrow(x_right)
+nrow(x_right) #nrow es número de filas
 nrow(ocu1)
 cat("mantuvo el numero de filas de ocupado ya que es un right join")
 
-# inner_join
+# inner_join ---- Coje unicamente las variables que hicieron match de ambas bases
 dev.off()
 grid.raster(readPNG("data_5/input/pics/inner join.png"))
 x_inner = inner_join(c_gen2, ocu2, by = c("directorio","secuencia_p","orden"), suffix = c("", ""))
@@ -211,7 +213,7 @@ nrow(x_inner)
 nrow(ocu2)
 cat("mantuvo el numero de filas de ocupado ya que el el inner join mantiene las filas que estas tengan en comun")
 
-# full_join
+# full_join ---- Coje todos los datos de ambas bases, hagan o no hagan macth
 dev.off()
 grid.raster(readPNG("data_5/input/pics/full join.png"))
 x_full = full_join(c_gen1, ocu1, by = c("directorio","secuencia_p","orden"), suffix = c("", ""))
@@ -249,7 +251,8 @@ cat("las filas se duplicaron")
 #----------------------------#
 
 # podemos pegar los meses 1 y 2 con la funcion bind rows. 
-c_gen = bind_rows(c_gen1, c_gen2)
+#No puedo utlizar los anteriores, porque solo me sirve para mezclar columnas. Así que utilizaremos blind:cols y blind:rows
+c_gen = bind_rows(c_gen1, c_gen2) #pegar las dos filas 
 nrow(c_gen)
 nrow(c_gen1) + nrow(c_gen2)
 
@@ -268,7 +271,7 @@ export(ocupados_1_2, "data_5/output/ocupados mes 1 & 2.RDS")
 dev.off()
 grid.raster(readPNG("data_5/input/pics/after.png"))
 
-# Verificar si existe un elmento de un vector dentro de otro vector
+# Verificar si existe un elemento de un vector dentro de otro vector
 ocu1$directorio %in% c_gen1$directorio %>% table()
 c_gen1 = c_gen1 %>% mutate(ocupado = ifelse(directorio %in% ocu1$directorio,1,0))
 
